@@ -188,35 +188,48 @@ cd humanize-text-pro
 ./scripts/install.sh
 ```
 
-That detects which agents are on the machine and writes the skill to each one's
-documented directory. Add `--list` to see what it found, `--dry-run` to change
+The installer detects which agents are on the machine and writes the skill to each
+one's documented directory. Add `--list` to see what it found, `--dry-run` to change
 nothing, `--all` to write every known path, `--project` to install into the current
 repo instead of `$HOME`, or `--uninstall` to remove it.
 
-**[docs/INSTALL.md](docs/INSTALL.md) has per-agent instructions**, with paths taken
-from each vendor's own documentation:
+### One copy covers eleven agents
 
-- **Native skill support**, verified paths: Claude Code, OpenAI Codex and ChatGPT,
-  Cursor, GitHub Copilot and VS Code, Gemini CLI, Google Antigravity, DeepSeek
-  Harness, OpenCode, Amp, Goose, Hermes Agent, JetBrains Junie, Roo Code, Kiro,
-  Factory Droid.
-- **Their own installer or account**: Claude CoWork and claude.ai (zip upload),
-  Hermes Agent (`hermes skills install`).
-- **Around thirty more Agent Skills clients** with links to their setup pages:
-  OpenHands, Mux, Letta, TRAE, Qodo, Tabnine, Mistral Vibe, Snowflake Cortex Code,
-  Databricks Genie Code, OpenClaw, and others.
-- **Agents with no skill system**, through a rules-file pointer: Windsurf and Devin
-  Desktop, Cline, Continue, Zed, Warp, Aider, Amazon Q Developer, JetBrains AI
-  Assistant, Augment, and anything that reads `AGENTS.md`.
-
-The short version, if you want one command and no reading: `~/.agents/skills/` is
-the vendor-neutral path in the Agent Skills standard, and Codex, Cursor, Gemini CLI,
-Copilot, OpenCode, Amp, Goose, Junie, Roo Code, Factory Droid, and DeepSeek Harness
-all read it.
+`~/.agents/skills/` is the vendor-neutral location in the Agent Skills standard.
+Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Amp, Goose, Junie, Roo Code,
+Factory Droid, and DeepSeek Harness all read it, so if you want one command and no
+reading, this is it:
 
 ```bash
 mkdir -p ~/.agents/skills && cp -R humanize-text-pro ~/.agents/skills/
 ```
+
+### Harnesses with native skill support
+
+Every path below comes from that vendor's own documentation, cited in
+[docs/INSTALL.md](docs/INSTALL.md#sources). Paths do change. When one is wrong, the
+vendor's page is the authority, not this table.
+
+| Harness | User level | Project level |
+|---|---|---|
+| **Claude Code** | `~/.claude/skills/` | `.claude/skills/` |
+| **OpenAI Codex** and ChatGPT | `~/.agents/skills/`, `/etc/codex/skills/` | `.agents/skills/` (walks up to the repo root) |
+| **Cursor** | `~/.cursor/skills/`, `~/.agents/skills/` | `.cursor/skills/`, `.agents/skills/` |
+| **GitHub Copilot** and VS Code | `~/.copilot/skills/`, `~/.agents/skills/` | `.github/skills/`, `.claude/skills/`, `.agents/skills/` |
+| **Gemini CLI** | `~/.gemini/skills/`, `~/.agents/skills/` | `.gemini/skills/`, `.agents/skills/` |
+| **Google Antigravity** | `~/.gemini/config/skills/` | `.agents/skills/` |
+| **DeepSeek Harness** (`dsh`) | `~/.agents/skills/` | `.agents/skills/` |
+| **OpenCode** | `~/.config/opencode/skills/`, `~/.claude/skills/`, `~/.agents/skills/` | `.opencode/skills/`, `.claude/skills/`, `.agents/skills/` |
+| **Amp** | `~/.config/agents/skills/`, `~/.agents/skills/`, `~/.config/amp/skills/`, `~/.claude/skills/` | `.agents/skills/`, `.claude/skills/` |
+| **Goose** | `~/.agents/skills/` (recommended), `~/.claude/skills/` | `.agents/skills/`, `.goose/skills/` |
+| **Hermes Agent** | `~/.hermes/skills/` | not applicable |
+| **JetBrains Junie** | `~/.junie/skills/`, `~/.agents/skills/` | `.junie/skills/`, `.agents/skills/` |
+| **Roo Code** | `~/.roo/skills/`, `~/.agents/skills/` | `.roo/skills/`, `.agents/skills/` |
+| **Kiro** | `~/.kiro/skills/` | `.kiro/skills/` |
+| **Factory Droid** | `~/.factory/skills/`, `~/.agents/skills/` | `.factory/skills/`, `.agents/skills/` |
+
+Where a harness lists several paths it reads all of them, usually with the
+harness-specific one winning a name clash. Writing to one is enough.
 
 Claude Code also installs as a plugin, which gives you `/humanize-text-pro`:
 
@@ -224,6 +237,90 @@ Claude Code also installs as a plugin, which gives you `/humanize-text-pro`:
 claude plugin marketplace add sarrafgsarraf/humanize-text-pro
 claude plugin install humanize-text-pro@humanize-text-pro
 ```
+
+### Harnesses that install through their own CLI or account
+
+| Harness | How |
+|---|---|
+| **Hermes Agent** | `hermes skills install https://raw.githubusercontent.com/sarrafgsarraf/humanize-text-pro/main/SKILL.md` |
+| **Claude, Claude CoWork, claude.ai** | Skills come from your account, not from disk. `zip -r -X humanize-text-pro.zip . -x '*.git*'` then upload at Settings, Capabilities, Skills |
+
+### Every other Agent Skills client
+
+Around fifty products read this format. If yours is here, the skill works there.
+Follow that product's own page for where its skills directory lives, then copy the
+`humanize-text-pro` directory into it. Many of them also read `~/.agents/skills/`, so
+try the one-copy install first.
+
+| Client | Setup instructions |
+|---|---|
+| OpenHands | [docs.openhands.dev](https://docs.openhands.dev/overview/skills) |
+| Mux | [mux.coder.com](https://mux.coder.com/agent-skills) |
+| Letta | [docs.letta.com](https://docs.letta.com/letta-code/skills/) |
+| TRAE | [trae.ai](https://www.trae.ai/blog/trae_tutorial_0115) |
+| Qodo | [qodo.ai](https://www.qodo.ai/blog/how-i-use-qodos-agent-skills-to-auto-fix-issues-in-pull-requests/) |
+| Tabnine | [docs.tabnine.com](https://docs.tabnine.com/main/getting-started/tabnine-cli/features/agent-skills) |
+| Firebender | [docs.firebender.com](https://docs.firebender.com/multi-agent/skills) |
+| Mistral AI Vibe | [github.com/mistralai/mistral-vibe](https://github.com/mistralai/mistral-vibe) |
+| Deep Code (DeepSeek terminal agent) | [deepcode.vegamo.cn](https://deepcode.vegamo.cn/en/docs/configuration/agent-skills) |
+| OpenClaw | [docs.openclaw.ai](https://docs.openclaw.ai/tools/skills) |
+| ZeroClaw | [docs.zeroclawlabs.ai](https://docs.zeroclawlabs.ai/master/en/tools/skills.html) |
+| Snowflake Cortex Code | [docs.snowflake.com](https://docs.snowflake.com/en/user-guide/cortex-code/extensibility#extensibility-skills) |
+| Databricks Genie Code | [docs.databricks.com](https://docs.databricks.com/aws/en/assistant/skills) |
+| VT Code | [github.com/vinhnx/vtcode](https://github.com/vinhnx/vtcode/blob/main/docs/skills/SKILLS_GUIDE.md) |
+| pi | [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) |
+| Emdash | [docs.emdash.sh](https://docs.emdash.sh/skills) |
+| Command Code | [commandcode.ai](https://commandcode.ai/docs/skills) |
+| Ona | [ona.com](https://ona.com/docs/ona/agents-md#skills-for-repository-specific-workflows) |
+| Workshop | [docs.workshop.ai](https://docs.workshop.ai/core-concepts/working-with-the-agent#create-your-own-agents) |
+| Autohand Code CLI | [autohand.ai](https://autohand.ai/docs/working-with-autohand-code/agent-skills.html) |
+| Superconductor | [superconductor.com](https://superconductor.com/docs/project/mcp-and-skills) |
+| nanobot | [nanobot.wiki](https://nanobot.wiki/docs/0.1.5/use-nanobot/skills) |
+| fast-agent | [fast-agent.ai](https://fast-agent.ai/agents/skills/) |
+| Pulumi Neo | [pulumi.com](https://www.pulumi.com/docs/ai/skills/) |
+| Laravel Boost | [laravel.com](https://laravel.com/docs/12.x/boost#agent-skills) |
+| Spring AI | [spring.io](https://spring.io/blog/2026/01/13/spring-ai-generic-agent-skills/) |
+| Agentman | [agentman.ai](https://agentman.ai/agentskills) |
+| Vita | [vita-ai.net](https://www.vita-ai.net/docs/features/agent-skills) |
+| Google AI Edge Gallery | [github.com/google-ai-edge/gallery](https://github.com/google-ai-edge/gallery/tree/main/skills) |
+| Piebald | [piebald.ai](https://piebald.ai) |
+
+The current list of supporting products is at
+[agentskills.io/clients](https://agentskills.io/clients).
+
+### Harnesses with no skill system
+
+These load standing instructions from a rules or context file instead of discovering
+skills by description. The skill still works. You lose only the on-demand loading:
+the harness reads your pointer every session and opens the skill files when the
+pointer tells it to.
+
+Install the skill into the repo, then add a pointer to the rules file:
+
+```bash
+./scripts/install.sh --project
+```
+
+| Harness | Rules file |
+|---|---|
+| **Windsurf** and Devin Desktop | `.windsurf/rules/*.md`, or `.devin/rules/*.md` on current builds. Legacy `.windsurfrules` still works |
+| **Cline** | `.clinerules/*.md` |
+| **Continue** | `.continue/rules/*.md`, or legacy `.continuerules` |
+| **Zed** | `.rules` |
+| **Warp** | `AGENTS.md`, or `WARP.md` for backwards compatibility |
+| **Aider** | `CONVENTIONS.md`, loaded with `aider --read CONVENTIONS.md` or `read: CONVENTIONS.md` in `.aider.conf.yml` |
+| **Amazon Q Developer** | `.amazonq/rules/*.md` |
+| **JetBrains AI Assistant** | `.aiassistant/rules/*.md` |
+| **Augment** | `AGENTS.md` |
+| **Anything reading AGENTS.md** | `AGENTS.md` at the repo root |
+
+`AGENTS.md` is the closest thing to a universal fallback. Codex, Warp, Augment, Amp,
+Zed, Ona, Factory, Antigravity, and DeepSeek Harness all read it, so a harness you do
+not see anywhere above will most likely pick up a pointer placed there.
+
+[docs/INSTALL.md](docs/INSTALL.md) has the pointer block to paste, per-harness
+commands, how to check the skill actually loaded, what to do when it does not, and
+the source link behind every path in these tables.
 
 ## Use
 
