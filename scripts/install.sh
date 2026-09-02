@@ -56,7 +56,7 @@ global_targets() {
 	cat <<-EOF
 		Cross-agent standard|$HOME/.agents/skills|shared
 		Claude Code, OpenCode, Amp, Goose, Cursor|$HOME/.claude/skills|shared
-		Amp (config dir)|$HOME/.config/agents/skills|shared
+		Amp (XDG config)|$HOME/.config/agents/skills|own
 		Cursor|$HOME/.cursor/skills|own
 		OpenAI Codex (legacy path)|$HOME/.codex/skills|own
 		GitHub Copilot|$HOME/.copilot/skills|own
