@@ -268,6 +268,12 @@ If a scheduled run turns up a change that does not belong here, merging the PR a
 stands records that the SHA was reviewed and rejected, so the next run starts from
 there rather than reporting the same diff again.
 
+If you fork or clone this repository, the workflow needs one repository setting to
+open its PR: **Settings, Actions, General, Workflow permissions, Allow GitHub Actions
+to create and approve pull requests**. GitHub turns that off by default. Without it
+the workflow still pushes the branch and still reports everything, but it files an
+issue with a manual compare link instead of a pull request.
+
 ## Repository layout
 
 | Path | What it is |
