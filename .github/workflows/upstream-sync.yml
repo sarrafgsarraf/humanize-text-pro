@@ -66,6 +66,12 @@ jobs:
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # actions/checkout fetches only the triggering ref, so a sync branch left by
+          # an earlier run has no remote-tracking ref locally and --force-with-lease
+          # would fail with "stale info". Fetch it explicitly to give the lease a basis.
+          git fetch origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" 2>/dev/null || true
+
           git checkout -B "$BRANCH"
           git add upstream.json
 
