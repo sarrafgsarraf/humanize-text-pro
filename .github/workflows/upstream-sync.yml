@@ -1,0 +1,89 @@
+name: Upstream sync
+
+# Watches the three source skills this repo merges. When a watched file changes
+# upstream, it opens a review PR that bumps the pinned SHAs and carries the diffs
+# plus a re-merge checklist.
+#
+# It deliberately does not rewrite SKILL.md or references/. The three sources
+# contradict each other in fifteen places, and pasting in new upstream text is
+# exactly how those contradictions arose. The logic lives in
+# scripts/check-upstream.sh and scripts/upstream-prepare.sh so it can be run and
+# tested locally, not only on a runner.
+
+on:
+  schedule:
+    # Mondays 06:00 UTC. These skills change on the order of weeks.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report drift in the summary without opening a PR"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the three sources against their pinned SHAs
+        id: check
+        run: |
+          ./scripts/check-upstream.sh --json > /tmp/report.json
+          echo "drift=$(jq -r '.drift' /tmp/report.json)" >> "$GITHUB_OUTPUT"
+          ./scripts/check-upstream.sh > /tmp/report.txt 2>&1 || true
+          cat /tmp/report.txt
+          printf '## Upstream check\n\n```\n' >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/report.txt >> "$GITHUB_STEP_SUMMARY"
+          printf '```\n' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: No drift
+        if: steps.check.outputs.drift != 'true'
+        run: echo "All three sources match their pinned SHAs. Nothing to do."
+
+      - name: Bump pinned SHAs and build the PR body
+        if: steps.check.outputs.drift == 'true' && inputs.dry_run != true
+        run: ./scripts/upstream-prepare.sh /tmp/report.json /tmp/body.md
+
+      - name: Open or update the review PR
+        if: steps.check.outputs.drift == 'true' && inputs.dry_run != true
+        run: |
+          set -euo pipefail
+          BRANCH="upstream-sync/$(date -u +%Y-%m-%d)"
+          BASE="${{ github.event.repository.default_branch }}"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add upstream.json
+
+          if git diff --cached --quiet; then
+            echo "upstream.json is already at the new SHAs. Nothing to push."
+            exit 0
+          fi
+
+          git commit -m "chore(upstream): record new upstream SHAs for review" \
+                     -m "Opened by the upstream-sync workflow. Bumps pinned SHAs only; the merged ruleset is unchanged and still needs a human re-merge pass."
+          git push --force-with-lease origin "$BRANCH"
+
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --body-file /tmp/body.md
+            echo "Updated PR #$existing"
+          else
+            gh pr create \
+              --title "chore(upstream): re-merge review, upstream skills changed" \
+              --body-file /tmp/body.md \
+              --base "$BASE" --head "$BRANCH"
+          fi

@@ -1,0 +1,4 @@
+interface:
+  display_name: "/humanize-text-pro"
+  short_description: "Human-sounding, unambiguous, honest prose. No AI tells, no invented facts."
+  default_prompt: "Use $humanize-text-pro on this text: pick the register, remove every AI tell, keep every fact and hedge at its original strength, and keep my voice."

@@ -1,0 +1,14 @@
+{
+  "name": "humanize-text-pro",
+  "version": "1.0.0",
+  "description": "Rewrite text so it reads as written by a person: no AI tells, no invented facts, no ambiguity. Merges no-ai-slop, humanizer, and ASD-STE100 into one non-conflicting ruleset.",
+  "author": {
+    "name": "Gaurav Sarraf",
+    "url": "https://github.com/sarrafgsarraf"
+  },
+  "homepage": "https://github.com/sarrafgsarraf/humanize-text-pro",
+  "repository": "https://github.com/sarrafgsarraf/humanize-text-pro",
+  "license": "MIT",
+  "keywords": ["writing", "editing", "humanize", "ai-detection", "prose", "style", "plain-language", "simplified-technical-english", "ste100", "no-ai-slop"],
+  "skills": "./"
+}

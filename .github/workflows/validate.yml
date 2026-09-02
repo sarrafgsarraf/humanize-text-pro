@@ -1,0 +1,32 @@
+name: Validate
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML for the frontmatter check
+        run: pip install --quiet pyyaml
+
+      - name: Structural checks
+        run: ./scripts/validate.sh
+
+      - name: Shell syntax of every script
+        run: for s in scripts/*.sh; do bash -n "$s"; done
+
+      - name: Workflow YAML parses
+        run: python3 -c "import yaml,glob;[yaml.safe_load(open(f)) for f in glob.glob('.github/workflows/*.yml')];print('workflows OK')"

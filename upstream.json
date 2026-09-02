@@ -1,0 +1,59 @@
+{
+  "$comment": [
+    "Pinned state of the three upstream skills this repo merges.",
+    "The upstream-sync workflow compares these SHAs against upstream HEAD on a",
+    "schedule and opens a review PR when a watched path changes. It never edits",
+    "SKILL.md or the reference files: a merged, conflict-resolved skill cannot",
+    "absorb upstream prose automatically without reintroducing the contradictions",
+    "it exists to settle. See AGENTS.md, 'When a source publishes a new version'.",
+    "branch is optional: when null, the repo's current default branch is resolved at run time, so an upstream default-branch rename does not break the check.",
+    "When you finish a re-merge by hand, bump merged_version and last_reviewed."
+  ],
+  "sources": [
+    {
+      "id": "no-ai-slop",
+      "owner": "petergyang",
+      "repo": "no-ai-slop",
+      "branch": null,
+      "watch": [
+        "skills/no-ai-slop/SKILL.md",
+        "skills/no-ai-slop/eval.md"
+      ],
+      "pinned_sha": "d30eddb9e04562234f2070b5ee63ca4649d9a05e",
+      "merged_version": "main @ d30eddb",
+      "last_reviewed": "2026-09-01",
+      "license": "MIT",
+      "author": "Peter Yang"
+    },
+    {
+      "id": "humanizer",
+      "owner": "blader",
+      "repo": "humanizer",
+      "branch": null,
+      "watch": [
+        "SKILL.md"
+      ],
+      "pinned_sha": "e2e92e7b4b8229253ed5c8e81dc65463fdeddda5",
+      "merged_version": "2.11.2",
+      "last_reviewed": "2026-09-01",
+      "license": "MIT",
+      "author": "Siqi Chen"
+    },
+    {
+      "id": "asd-ste100",
+      "owner": "danyuchn",
+      "repo": "asd-ste100-skill",
+      "branch": null,
+      "watch": [
+        "SKILL.md",
+        "references/writing-rules.md",
+        "examples/before-after.md"
+      ],
+      "pinned_sha": "e4d64d1dc7f80baa6c590bbf47a99280a90e1b40",
+      "merged_version": "0.4.0",
+      "last_reviewed": "2026-09-01",
+      "license": "MIT",
+      "author": "Dustin Yuchen Teng"
+    }
+  ]
+}
