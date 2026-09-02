@@ -1,18 +1,31 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-marketplace-manifest.json",
   "name": "humanize-text-pro",
   "owner": {
     "name": "Gaurav Sarraf",
     "url": "https://github.com/sarrafgsarraf"
   },
-  "description": "Install Humanize Text Pro as a Claude plugin.",
+  "metadata": {
+    "description": "Humanize Text Pro: one skill merging no-ai-slop, humanizer, and ASD-STE100 into a non-conflicting ruleset.",
+    "version": "1.0.0"
+  },
   "plugins": [
     {
       "name": "humanize-text-pro",
       "source": "./",
       "description": "Rewrite text so it reads as written by a person: no AI tells, no invented facts, no ambiguity. Merges no-ai-slop, humanizer, and ASD-STE100 into one non-conflicting ruleset.",
       "license": "MIT",
-      "keywords": ["writing", "editing", "humanize", "ai-detection", "prose", "style", "plain-language", "simplified-technical-english", "ste100", "no-ai-slop"]
+      "keywords": [
+        "writing",
+        "editing",
+        "humanize",
+        "ai-detection",
+        "prose",
+        "style",
+        "plain-language",
+        "simplified-technical-english",
+        "ste100",
+        "no-ai-slop"
+      ]
     }
   ]
 }
