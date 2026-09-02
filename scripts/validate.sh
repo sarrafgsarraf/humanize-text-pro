@@ -30,7 +30,8 @@ echo "== files"
 for f in SKILL.md README.md AGENTS.md LICENSE upstream.json \
 	references/ai-tells.md references/clarity-rules.md references/conflict-log.md \
 	checks/eval.md examples/before-after.md \
-	scripts/tellscan.sh scripts/check-upstream.sh agents/openai.yaml \
+	scripts/tellscan.sh scripts/check-upstream.sh scripts/install.sh \
+	docs/INSTALL.md agents/openai.yaml \
 	.claude-plugin/plugin.json .claude-plugin/marketplace.json; do
 	[ -f "$f" ] && ok "$f" || bad "$f missing"
 done
@@ -148,13 +149,13 @@ echo "== the skill obeys its own punctuation rules"
 # Dashes, curly quotes, and emoji are legitimate only inside a quoted example.
 # ai-tells.md and examples/before-after.md teach them, so they are exempt.
 strays=$(grep -rn -e '—' -e '–' -e '“' -e '”' -e '‘' -e '’' \
-	--include='*.md' SKILL.md README.md AGENTS.md checks/ references/clarity-rules.md references/conflict-log.md 2>/dev/null |
+	--include='*.md' SKILL.md README.md AGENTS.md docs/ checks/ references/clarity-rules.md references/conflict-log.md 2>/dev/null |
 	grep -v '`' || true)
 [ -z "$strays" ] && ok "no stray dashes or curly quotes outside examples" ||
 	bad "stray dashes or curly quotes" "$strays"
 
 emoji=$(LC_ALL=C grep -rln -e "$(printf '\360\237')" \
-	SKILL.md README.md AGENTS.md checks/ references/clarity-rules.md references/conflict-log.md 2>/dev/null || true)
+	SKILL.md README.md AGENTS.md docs/ checks/ references/clarity-rules.md references/conflict-log.md 2>/dev/null || true)
 [ -z "$emoji" ] && ok "no emoji outside examples" || bad "emoji found" "$emoji"
 
 echo "== tellscan self-test"

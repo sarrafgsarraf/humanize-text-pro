@@ -179,33 +179,50 @@ full Audit-mode findings report.
 
 ## Install
 
-A directory of Markdown plus four shell scripts. No build step, no runtime, no
+A directory of Markdown plus five POSIX shell scripts. No build step, no runtime, no
 dependencies beyond what your shell already has.
 
-**Claude Code**, as a plugin:
+```bash
+git clone https://github.com/sarrafgsarraf/humanize-text-pro.git
+cd humanize-text-pro
+./scripts/install.sh
+```
+
+That detects which agents are on the machine and writes the skill to each one's
+documented directory. Add `--list` to see what it found, `--dry-run` to change
+nothing, `--all` to write every known path, `--project` to install into the current
+repo instead of `$HOME`, or `--uninstall` to remove it.
+
+**[docs/INSTALL.md](docs/INSTALL.md) has per-agent instructions**, with paths taken
+from each vendor's own documentation:
+
+- **Native skill support**, verified paths: Claude Code, OpenAI Codex and ChatGPT,
+  Cursor, GitHub Copilot and VS Code, Gemini CLI, Google Antigravity, DeepSeek
+  Harness, OpenCode, Amp, Goose, Hermes Agent, JetBrains Junie, Roo Code, Kiro,
+  Factory Droid.
+- **Their own installer or account**: Claude CoWork and claude.ai (zip upload),
+  Hermes Agent (`hermes skills install`).
+- **Around thirty more Agent Skills clients** with links to their setup pages:
+  OpenHands, Mux, Letta, TRAE, Qodo, Tabnine, Mistral Vibe, Snowflake Cortex Code,
+  Databricks Genie Code, OpenClaw, and others.
+- **Agents with no skill system**, through a rules-file pointer: Windsurf and Devin
+  Desktop, Cline, Continue, Zed, Warp, Aider, Amazon Q Developer, JetBrains AI
+  Assistant, Augment, and anything that reads `AGENTS.md`.
+
+The short version, if you want one command and no reading: `~/.agents/skills/` is
+the vendor-neutral path in the Agent Skills standard, and Codex, Cursor, Gemini CLI,
+Copilot, OpenCode, Amp, Goose, Junie, Roo Code, Factory Droid, and DeepSeek Harness
+all read it.
+
+```bash
+mkdir -p ~/.agents/skills && cp -R humanize-text-pro ~/.agents/skills/
+```
+
+Claude Code also installs as a plugin, which gives you `/humanize-text-pro`:
 
 ```bash
 claude plugin marketplace add sarrafgsarraf/humanize-text-pro
 claude plugin install humanize-text-pro@humanize-text-pro
-```
-
-**Any harness that reads a skill directory**, by hand:
-
-```bash
-git clone https://github.com/sarrafgsarraf/humanize-text-pro.git
-cp -R humanize-text-pro ~/.claude/skills/          # Claude Code
-cp -R humanize-text-pro ~/.cursor/skills-cursor/   # Cursor
-cp -R humanize-text-pro ~/.codex/skills/           # Codex
-```
-
-Or point your agent at the repository and ask it to install the skill globally.
-
-**Claude CoWork** reads skills from your claude.ai account rather than from local
-directories, so a file copy will not reach it. Zip the directory and upload it at
-Settings, Capabilities, Skills:
-
-```bash
-zip -r -X humanize-text-pro.zip humanize-text-pro -x '*.git*' -x '*.DS_Store'
 ```
 
 ## Use
@@ -287,7 +304,9 @@ issue with a manual compare link instead of a pull request.
 | [`scripts/tellscan.sh`](scripts/tellscan.sh) | Mechanical tell scanner |
 | [`scripts/check-upstream.sh`](scripts/check-upstream.sh) | Upstream drift detection |
 | [`scripts/upstream-prepare.sh`](scripts/upstream-prepare.sh) | Builds the re-merge review PR |
+| [`scripts/install.sh`](scripts/install.sh) | Cross-agent installer. Detects agents, writes each documented path |
 | [`scripts/validate.sh`](scripts/validate.sh) | Structural checks. Run before every commit |
+| [`docs/INSTALL.md`](docs/INSTALL.md) | Per-agent install instructions for ~50 coding agents |
 | [`AGENTS.md`](AGENTS.md) | How to change this skill without breaking it |
 
 ## What it will not do

@@ -5,7 +5,7 @@ read `SKILL.md` instead.
 
 ## What this is
 
-A portable agent skill: Markdown plus four POSIX shell scripts, no build step, no
+A portable agent skill: Markdown plus five POSIX shell scripts, no build step, no
 dependencies. It works in any harness that reads `SKILL.md` from a directory. Keep it
 that way. Do not add instructions that assume one harness's tool names, and do not
 add a runtime.
@@ -32,6 +32,8 @@ Repo maintenance tooling, not loaded by the skill at runtime:
 
 | File | Purpose |
 |---|---|
+| `scripts/install.sh` | Cross-agent installer. Detects agents and writes each documented skills path |
+| `docs/INSTALL.md` | Per-agent install instructions. Update it when a vendor moves its skills directory |
 | `scripts/validate.sh` | Structural checks. Run before every commit; CI runs it too |
 | `scripts/check-upstream.sh` | Compares pinned SHAs in `upstream.json` against the three upstream repos |
 | `scripts/upstream-prepare.sh` | Bumps pinned SHAs and writes the re-merge review PR body |
@@ -106,7 +108,7 @@ One command, and CI runs the same one:
 ./scripts/validate.sh
 ```
 
-It checks that every expected file exists, that all four scripts parse and are
+It checks that every expected file exists, that all five scripts parse and are
 executable, that the JSON manifests and the skill frontmatter are valid, that no
 cross-file link or anchor is broken, that the tell numbering is contiguous and the
 README's stated count matches it, that the skill's own prose contains no stray dashes
