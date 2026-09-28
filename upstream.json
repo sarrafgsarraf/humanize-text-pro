@@ -19,7 +19,7 @@
         "skills/no-ai-slop/SKILL.md",
         "skills/no-ai-slop/eval.md"
       ],
-      "pinned_sha": "d30eddb9e04562234f2070b5ee63ca4649d9a05e",
+      "pinned_sha": "000650b156983f5159695b441477f4e63b25dc85",
       "merged_version": "main @ d30eddb",
       "last_reviewed": "2026-09-01",
       "license": "MIT",
@@ -33,7 +33,7 @@
       "watch": [
         "SKILL.md"
       ],
-      "pinned_sha": "e2e92e7b4b8229253ed5c8e81dc65463fdeddda5",
+      "pinned_sha": "225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8",
       "merged_version": "2.11.2",
       "last_reviewed": "2026-09-01",
       "license": "MIT",
@@ -49,7 +49,7 @@
         "references/writing-rules.md",
         "examples/before-after.md"
       ],
-      "pinned_sha": "e4d64d1dc7f80baa6c590bbf47a99280a90e1b40",
+      "pinned_sha": "7d4a135a199a5d7447c4886bcd7ffe742a627bc9",
       "merged_version": "0.4.0",
       "last_reviewed": "2026-09-01",
       "license": "MIT",
